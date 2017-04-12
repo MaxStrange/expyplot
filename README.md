@@ -1,6 +1,10 @@
 # Expyplot
 
-**TODO: Add description**
+To run the examples, start an iex -S mix session while in :dev mode and run:
+
+```elixir
+Code.load_file("EXAMPLE.exs", "./path/to/example")
+```
 
 ## Installation
 

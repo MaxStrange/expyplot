@@ -8,6 +8,8 @@ defmodule Server.Pycomm do
   interpretor, thus making the plot.
   """
 
+  @boilerplate "import matplotlib.pyplot as plt"
+
   ## Client API
 
   @doc """
@@ -56,7 +58,7 @@ defmodule Server.Pycomm do
   ## Server Callbacks
 
   def init(:ok) do
-    {:ok, ""}
+    {:ok, @boilerplate}
   end
 
   def handle_call(call, _from, code) do
@@ -67,7 +69,7 @@ defmodule Server.Pycomm do
       {:get} ->
         {:reply, code, code}
       {:delete} ->
-        {:reply, "", ""}
+        {:reply, @boilerplate, @boilerplate}
     end
   end
 
