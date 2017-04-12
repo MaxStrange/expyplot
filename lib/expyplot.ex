@@ -1,18 +1,10 @@
 defmodule Expyplot do
+  use Application
   @moduledoc """
-  Documentation for Expyplot.
+  This is the supervisor that runs the application.
   """
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> Expyplot.hello
-      :world
-
-  """
-  def hello do
-    :world
+  def start(_type, _args) do
+    Server.Commapi.start_link
   end
 end

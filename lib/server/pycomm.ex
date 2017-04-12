@@ -4,7 +4,7 @@ defmodule Server.Pycomm do
   This module is a GenServer that manages the Python code that will be executed.
 
   The general idea is that you will call functions in the library's API and this will usually add
-  code here. Then when you call Pyex.Plot.show(), it will flush the code to the Python3
+  code here. Then when you call Expyplot.Plot.show(), it will flush the code to the Python3
   interpretor, thus making the plot.
   """
 
@@ -13,8 +13,8 @@ defmodule Server.Pycomm do
   @doc """
   Starts the server.
   """
-  def start_link do
-    GenServer.start_link(__MODULE__, :ok, [])
+  def start_link(name) do
+    GenServer.start_link(__MODULE__, :ok, name: name)
   end
 
   @doc """
