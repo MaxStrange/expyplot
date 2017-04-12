@@ -13,4 +13,13 @@ defmodule Server.Commapi do
     children = [ worker(Server.Pycomm, [Server.Pycomm]) ]
     supervise(children, strategy: :one_for_one)
   end
+
+  def add_code(code) do
+    Server.Pycomm.add_code(Server.Pycomm, code)
+  end
+
+  def execute do
+    add_code "\nplt.show()"
+    Server.Pycomm.execute Server.Pycomm
+  end
 end
