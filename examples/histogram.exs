@@ -10,7 +10,7 @@ defmodule HistogramExample do
     |> Stream.map(fn(_) -> Statistics.Distributions.Normal.rand(mu, sigma) end)
     |> Enum.to_list
 
-  Plot.hist(x, range: 50, normed: 1, facecolor: :green, alpha: 0.75)
+  Plot.hist(x, bins: 50, normed: 1, facecolor: :green, alpha: 0.75)
   #{n, bins, patches} = Plot.hist(x, 50, normed: 1, facecolor: "green", alpha: 0.75)
 
   #y = Mlab.normpdf(bins, mu, sigma)
