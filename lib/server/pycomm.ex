@@ -76,7 +76,7 @@ defmodule Server.Pycomm do
   def handle_cast(cast, code) do
     case cast do
       {:execute} ->
-        System.cmd("python3", ["-c", code], [into: IO.stream(:stdio, :line)])
+        System.cmd("python3", ["-c", code])#, [into: IO.stream(:stdio, :line)])
         {:noreply, code}
     end
   end
