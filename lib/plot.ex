@@ -19,7 +19,8 @@ defmodule Expyplot.Plot do
   """
   def hist(x, opts \\ [bins: nil, range: nil, normed: false, weights: nil, cumulative: false, bottom: nil, histtype: :bar, align: :mid, orientation: :vertical,
                        rwidth: nil, log: false, color: nil, label: nil, stacked: false, hold: nil, data: nil], kwargs \\ []) do
-    code = Codebuilder.build_code(funcname: "plt.hist", nonnamed: [x], named: opts ++ kwargs)
+    local_x = if Enumerable.impl_for x, do: Enum.to_list(x), else: local_x
+    code = Codebuilder.build_code(funcname: "plt.hist", nonnamed: [local_x], named: opts ++ kwargs)
     Server.Commapi.add_code code
     x
   end
