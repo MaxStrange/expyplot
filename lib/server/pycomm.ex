@@ -43,6 +43,7 @@ defmodule Server.Pycomm do
   ## Helper Functions
 
   defp send_to_python(code, to_python) do
+    # TODO: If the code is larger than 4096 chars, you need to break it up and send pieces.
     IO.puts "Writing:"
     IO.inspect code
 

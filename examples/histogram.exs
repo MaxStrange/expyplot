@@ -6,7 +6,7 @@ defmodule HistogramExample do
 
   {mu, sigma} = {100, 15}
   x =
-    Stream.take_every(1..10_000, 1)
+    Stream.take_every(1..25, 1)
     |> Stream.map(fn(_) -> Statistics.Distributions.Normal.rand(mu, sigma) end)
     |> Enum.to_list
 
