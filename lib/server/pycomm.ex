@@ -35,7 +35,7 @@ defmodule Server.Pycomm do
   def handle_call(call, _from, to_python) do
     case call do
       {:eval, code} ->
-        return_val = send_to_python(code, to_python)
+        return_val = send_to_python(code <> "\n", to_python)
         {:reply, return_val, to_python}
     end
   end
@@ -43,8 +43,16 @@ defmodule Server.Pycomm do
   ## Helper Functions
 
   defp send_to_python(code, to_python) do
+    IO.puts "Writing:"
+    IO.inspect code
+
     write_line(code, to_python)
-    read_line(to_python)
+    line = read_line(to_python)
+
+    IO.puts "Got:"
+    IO.inspect line
+
+    line
   end
 
   defp read_line(from) do

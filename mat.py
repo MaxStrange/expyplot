@@ -13,8 +13,8 @@ port = int(sys.argv[1])
 s.bind((host, port))
 s.listen(1)
 
+client, _addr = s.accept()
 while True:
-    client, _addr = s.accept()
     to_evaluate = client.recv(4096).decode("ascii")
     try:
         val = eval(to_evaluate)
@@ -23,5 +23,6 @@ while True:
         client.send((json + os.linesep).encode("ascii"))
     except Exception as e:
         # TODO: return the exception as {:error, exception_info}
+        print("Syntax error or something.")
         pass
 
