@@ -72,7 +72,7 @@ defmodule Expyplot.Plot do
   end
 
   def show do
-    Server.Commapi.get_code() |> IO.inspect
+    Server.Commapi.get_code()
     Server.Commapi.execute()
   end
 end
