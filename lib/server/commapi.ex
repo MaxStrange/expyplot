@@ -22,4 +22,8 @@ defmodule Server.Commapi do
     add_code "\nplt.show()"
     Server.Pycomm.execute Server.Pycomm
   end
+
+  def get_code do
+    Server.Pycomm.get_code Server.Pycomm
+  end
 end

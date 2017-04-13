@@ -15,12 +15,12 @@ defmodule HistogramExample do
 
   #y = Mlab.normpdf(bins, mu, sigma)
   #l = Plot.plot(bins, y, "r--", linewidth: 1)
-  #
-  #Plot.xlabel("Smarts")
-  #Plot.ylabel("Probability")
-  #Plot.title("TODO") # TODO
-  #Plot.axis([40, 160, 0, 0.03])
-  #Plot.grid(True)
-  #
+
+  Plot.xlabel("Smarts")
+  Plot.ylabel("Probability")
+  Plot.title("IQ Scores")
+  Plot.axis(v: [40, 160, 0, 0.03])
+  Plot.grid(b: true)
+
   Plot.show()
 end

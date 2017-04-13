@@ -8,8 +8,14 @@ defmodule Codebuilder do
     args_string = if String.ends_with?(args_string, ", "), do: String.slice(args_string, 0..-3), else: args_string
     args_string = if String.starts_with?(args_string, ", "), do: String.slice(args_string, 2..-1), else: args_string
     namedargs_string = namedargs |> Enum.map(&stringify_namedarg/1) |> Enum.reduce("", fn(x, acc) -> acc <> ", " <> x end)
+    namedargs_string  = if String.ends_with?(namedargs_string, ", "), do: String.slice(namedargs_string, 0..-3), else: namedargs_string
+    namedargs_string  = if String.starts_with?(namedargs_string, ", "), do: String.slice(namedargs_string, 2..-1), else: namedargs_string
 
-    "\n" <> name <> "(" <> args_string <> namedargs_string <> ")"
+    if String.length(args_string) > 0 and String.length(namedargs_string) > 0 do
+      "\n" <> name <> "(" <> args_string <> ", " <> namedargs_string <> ")"
+    else
+      "\n" <> name <> "(" <> args_string <> namedargs_string <> ")"
+    end
   end
 
   ## These functions take a variable and turn it into its Python representation, then into a string from there
