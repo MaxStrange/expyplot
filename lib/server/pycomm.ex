@@ -8,7 +8,7 @@ defmodule Server.Pycomm do
   interpretor, thus making the plot.
   """
 
-  @boilerplate "import matplotlib.pyplot as plt"
+  @pyport 9849
 
   ## Client API
 
@@ -22,89 +22,37 @@ defmodule Server.Pycomm do
   @doc """
   Adds the given code to the buffer.
   """
-  def add_code(pid, code) do
-    GenServer.call(pid, {:add, code})
+  def eval_code(pid, code) do
+    GenServer.call(pid, {:eval, code})
   end
-
-  @doc """
-  Gets the code currently held in the buffer.
-  """
-  def get_code(pid) do
-    GenServer.call(pid, {:get})
-  end
-
-  @doc """
-  Deletes the code currently in the buffer.
-  """
-  def delete_code(pid) do
-    GenServer.call(pid, {:delete})
-  end
-
-  @doc """
-  Executes the code and flushes the buffer.
-  """
-  def execute(pid) do
-    execute_no_flush pid
-    delete_code pid
-  end
-
-  @doc """
-  Executes the code without flushing the buffer.
-  """
- def execute_no_flush(pid) do
-   GenServer.cast(pid, {:execute})
- end
-
- def accept(port) do
-   {:ok, socket} = :gen_tcp.listen(port, [:binary, packet: :line, active: false, reuseaddr: true])
-   loop_acceptor socket
- end
 
   ## Server Callbacks
 
   def init(:ok) do
-    {:ok, @boilerplate}
+    {:ok, _to_python} = :gen_tcp.connect('localhost', @pyport, [:binary, packet: :line, active: false])
   end
 
-  def handle_call(call, _from, code) do
+  def handle_call(call, _from, to_python) do
     case call do
-      {:add, new_code} ->
-        new_state = code <> new_code
-        {:reply, new_state, new_state}
-      {:get} ->
-        {:reply, code, code}
-      {:delete} ->
-        {:reply, @boilerplate, @boilerplate}
-    end
-  end
-
-  def handle_cast(cast, code) do
-    case cast do
-      {:execute} ->
-        System.cmd("python3", ["-c", code])#, [into: IO.stream(:stdio, :line)])
-        {:noreply, code}
+      {:eval, code} ->
+        return_val = send_to_python(code, to_python)
+        {:reply, return_val, to_python}
     end
   end
 
   ## Helper Functions
 
-  defp loop_acceptor(socket) do
-    {:ok, client} = :gen_tcp.accept socket
-    serve client
-    loop_acceptor socket
+  defp send_to_python(code, to_python) do
+    write_line(code, to_python)
+    read_line(to_python)
   end
 
-  defp serve(socket) do
-    socket |> read_line() |> write_line(socket)
-    serve socket
-  end
-
-  defp read_line(socket) do
-    {:ok, data} = :gen_tcp.recv(socket, 0)
+  defp read_line(from) do
+    {:ok, data} = :gen_tcp.recv(from, 0)
     data
   end
 
-  defp write_line(line, socket) do
-    :gen_tcp.send(socket, line)
+  defp write_line(line, to) do
+    :gen_tcp.send(to, line)
   end
 end
