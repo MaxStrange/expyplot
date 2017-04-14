@@ -3,6 +3,7 @@ This module is the Matplotlib server, Python side. It sits around waiting for Py
 the result to the sender wrapped up in JSON.
 """
 import matplotlib.pyplot as plt
+import numpy as np
 import os
 import socket
 import sys
@@ -38,8 +39,14 @@ def send_to_caller(result):
     to_send = (result + os.linesep).encode("ascii")
     client.send(to_send)
 
+def stringify(result):
+    if isinstance(result, np.ndarray):
+        return str(result.tolist()) + signal
+    else:
+        return str(result) + signal
+
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-host = "localhost"#socket.gethostname()
+host = "localhost"
 port = int(sys.argv[1])
 s.bind((host, port))
 s.listen(1)
@@ -50,5 +57,7 @@ while True:
     for stat in to_evaluate.split(os.linesep):
         if stat.strip().rstrip(signal).strip():
             result = try_evaluate(stat)
-            send_to_caller(str(result))
+            result = stringify(result)
+            print("Sending back:", result)
+            send_to_caller(result)
 

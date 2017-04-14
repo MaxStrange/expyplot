@@ -67,8 +67,18 @@ defmodule Server.Pycomm do
   end
 
   defp read_line(from) do
+    do_read_line(from, "")
+  end
+
+  defp do_read_line(from, acc) do
     {:ok, data} = :gen_tcp.recv(from, 0)
-    data
+    if String.ends_with?(data, @signal <> "\n") do
+      i = String.length(data) - (String.length(@signal <> "\n") + 1)
+      last = String.slice(data, 0..i)
+      acc <> last
+    else
+      do_read_line(from, acc <> data)
+    end
   end
 
   defp write_line(line, to) do
