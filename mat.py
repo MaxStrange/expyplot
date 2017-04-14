@@ -9,6 +9,8 @@ import socket
 import sys
 import traceback
 
+plt.switch_backend("Qt5Agg")
+
 signal = "$<>;;<>%"
 
 def accumulate(client):
