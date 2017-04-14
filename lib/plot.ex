@@ -14,18 +14,12 @@ defmodule Expyplot.Plot do
   @doc """
   Histogram function. See matplotlib docs for hist:
   http://matplotlib.org/api/pyplot_api.html
-
-  #TODO: This needs to return something - so it needs to communicate with a python process that is running as a server
-
-      iex> Expyplot.Plot.hist(1..5)
-      1..5
   """
   def hist(x, opts \\ [bins: nil, range: nil, normed: false, weights: nil, cumulative: false, bottom: nil, histtype: :bar, align: :mid, orientation: :vertical,
                        rwidth: nil, log: false, color: nil, label: nil, stacked: false, hold: nil, data: nil], kwargs \\ []) do
     local_x = if Enumerable.impl_for(x), do: Enum.to_list(x), else: x
     code = Codebuilder.build_code(funcname: "plt.hist", nonnamed: [local_x], named: opts ++ kwargs)
     Server.Commapi.add_code code
-    x
   end
 
   @doc """
