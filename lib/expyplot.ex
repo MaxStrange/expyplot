@@ -6,6 +6,8 @@ defmodule Expyplot do
   """
 
   def start(_type, _args) do
-    Server.Commapi.start_link
+    Server.Pysupervisor.start_link
+    # TODO: sit around until python starts up
+    #Server.Commapi.start_link
   end
 end
