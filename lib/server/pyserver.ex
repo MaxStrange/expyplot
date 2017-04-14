@@ -17,7 +17,7 @@ defmodule Server.Pyserver do
 
   def init(:ok) do
     pwd = System.cwd!()
-    System.cmd("python3", [pwd <> "/" <> @pyserver_location, Integer.to_string(@pyport)], [into: IO.stream(:stdio, :line)])
+    System.cmd("python3", [pwd <> "/lib/server/" <> @pyserver_location, Integer.to_string(@pyport)], [into: IO.stream(:stdio, :line)])
     {:ok, %{}}
   end
 
