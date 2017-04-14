@@ -72,7 +72,7 @@ defmodule Expyplot.Plot do
   end
 
   def show do
-    Server.Commapi.get_code()
-    Server.Commapi.execute()
+    code = Codebuilder.build_code(funcname: "plt.show", nonnamed: [], named: [])
+    Server.Commapi.add_code code
   end
 end

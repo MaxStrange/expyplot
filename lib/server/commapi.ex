@@ -15,15 +15,6 @@ defmodule Server.Commapi do
   end
 
   def add_code(code) do
-    Server.Pycomm.add_code(Server.Pycomm, code)
-  end
-
-  def execute do
-    add_code "\nplt.show()"
-    Server.Pycomm.execute Server.Pycomm
-  end
-
-  def get_code do
-    Server.Pycomm.get_code Server.Pycomm
+    Server.Pycomm.eval_code(Server.Pycomm, code)
   end
 end

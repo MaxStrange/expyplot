@@ -8,7 +8,8 @@ defmodule Server.Pycomm do
   interpretor, thus making the plot.
   """
 
-  @boilerplate "import matplotlib.pyplot as plt"
+  @pyport 9849
+  @signal "$<>;;<>%"
 
   ## Client API
 
@@ -22,64 +23,62 @@ defmodule Server.Pycomm do
   @doc """
   Adds the given code to the buffer.
   """
-  def add_code(pid, code) do
-    GenServer.call(pid, {:add, code})
+  def eval_code(pid, code) do
+    GenServer.call(pid, {:eval, code})
   end
-
-  @doc """
-  Gets the code currently held in the buffer.
-  """
-  def get_code(pid) do
-    GenServer.call(pid, {:get})
-  end
-
-  @doc """
-  Deletes the code currently in the buffer.
-  """
-  def delete_code(pid) do
-    GenServer.call(pid, {:delete})
-  end
-
-  @doc """
-  Executes the code and flushes the buffer.
-  """
-  def execute(pid) do
-    execute_no_flush pid
-    delete_code pid
-  end
-
-  @doc """
-  Executes the code without flushing the buffer.
-  """
- def execute_no_flush(pid) do
-   GenServer.cast(pid, {:execute})
- end
 
   ## Server Callbacks
 
   def init(:ok) do
-    {:ok, @boilerplate}
+    {:ok, _to_python} = :gen_tcp.connect('localhost', @pyport, [:binary, packet: :line, active: false])
   end
 
-  def handle_call(call, _from, code) do
+  def handle_call(call, _from, to_python) do
     case call do
-      {:add, new_code} ->
-        new_state = code <> new_code
-        {:reply, new_state, new_state}
-      {:get} ->
-        {:reply, code, code}
-      {:delete} ->
-        {:reply, @boilerplate, @boilerplate}
-    end
-  end
-
-  def handle_cast(cast, code) do
-    case cast do
-      {:execute} ->
-        System.cmd("python3", ["-c", code])#, [into: IO.stream(:stdio, :line)])
-        {:noreply, code}
+      {:eval, ""} ->
+        raise ArgumentError, message: "Cannot supply Python with empty code string"
+      {:eval, code} ->
+        return_val = send_to_python(code, to_python)
+        {:reply, return_val, to_python}
     end
   end
 
   ## Helper Functions
+
+  defp send_to_python(code, to_python) do
+    do_send_to_python(code, to_python)
+  end
+
+  defp do_send_to_python(code, to_python) do
+    max_size = 4096 - String.length(@signal)
+    chunk = code |> String.slice(0..max_size)
+    leftover = code |> String.slice((max_size + 1)..-1)
+    cond do
+      String.length(chunk) <= max_size ->
+        write_line(chunk <> "\n" <> @signal, to_python)
+        read_line to_python
+      String.length(chunk) > max_size ->
+        write_line(chunk, to_python)
+        do_send_to_python(leftover, to_python)
+    end
+  end
+
+  defp read_line(from) do
+    do_read_line(from, "")
+  end
+
+  defp do_read_line(from, acc) do
+    {:ok, data} = :gen_tcp.recv(from, 0)
+    if String.ends_with?(data, @signal <> "\n") do
+      i = String.length(data) - (String.length(@signal <> "\n") + 1)
+      last = String.slice(data, 0..i)
+      acc <> last
+    else
+      do_read_line(from, acc <> data)
+    end
+  end
+
+  defp write_line(line, to) do
+    :gen_tcp.send(to, line)
+  end
 end
