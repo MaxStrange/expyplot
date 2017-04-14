@@ -8,6 +8,36 @@ import socket
 import sys
 import traceback
 
+signal = "$<>;;<>%"
+
+def accumulate(client):
+    accumulated = ""
+    while True:
+        got = client.recv(4096).decode("ascii")
+        print("Received:", got)
+        accumulated += got
+        if accumulated.endswith(signal):
+            break
+    print("Accumulated before strip:", accumulated)
+    accumulated = accumulated.rstrip(signal)
+    print("Accumulated after strip:", accumulated)
+    return accumulated
+
+def try_evaluate(to_evaluate):
+    try:
+        print("Going to execute:", to_evaluate)
+        val = eval(to_evaluate.strip())
+        print("Success, got back:", val)
+        return val
+    except Exception as e:
+        print("Exception:", e)
+        traceback.print_exc()
+        return str(e)
+
+def send_to_caller(result):
+    to_send = (result + os.linesep).encode("ascii")
+    client.send(to_send)
+
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = "localhost"#socket.gethostname()
 port = int(sys.argv[1])
@@ -16,23 +46,9 @@ s.listen(1)
 
 client, _addr = s.accept()
 while True:
-    to_evaluate = client.recv(4096).decode("ascii")
-    try:
-        # TODO: This should buffer the code it is given and only evaluate it
-        #       After it gets a special signal to evaluate it.
-        #       That will allow for larger code strings - such as when you have
-        #       a million numbers that you want to graph.
-        statements = to_evaluate.split("\n")
-        for stat in statements:
-            if stat.strip():
-                print("Going to execute", stat.strip())
-                val = eval(stat.strip())
-                print("Evaluated, and got back:", val)
-                # TODO: return val as {:ok, json}
-                json = str(val)
-                client.send((json + os.linesep).encode("ascii"))
-    except Exception as e:
-        # TODO: return the exception as {:error, exception_info}
-        print("Syntax error or something:", to_evaluate)
-        traceback.print_exc()
+    to_evaluate = accumulate(client)
+    for stat in to_evaluate.split(os.linesep):
+        if stat.strip().rstrip(signal).strip():
+            result = try_evaluate(stat)
+            send_to_caller(str(result))
 
