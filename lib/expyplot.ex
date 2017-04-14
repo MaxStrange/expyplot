@@ -7,7 +7,14 @@ defmodule Expyplot do
 
   def start(_type, _args) do
     Server.Pysupervisor.start_link
-    # TODO: sit around until python starts up
-    #Server.Commapi.start_link
+    connect_to_python()
+  end
+
+  defp connect_to_python do
+    result = Server.Commapi.start_link
+    case result do
+      {:ok, _pid} -> {:ok, _pid}
+      {:error, {:shutdown, {:failed_to_start_child, Server.Pycomm, {:bad_return_value, {:error, :econnrefused}}}}} -> connect_to_python()
+    end
   end
 end

@@ -30,7 +30,7 @@ defmodule Server.Pycomm do
   ## Server Callbacks
 
   def init(:ok) do
-    {:ok, _to_python} = :gen_tcp.connect('localhost', @pyport, [:binary, packet: :line, active: false])
+    :gen_tcp.connect('localhost', @pyport, [:binary, packet: :line, active: false])
   end
 
   def handle_call(call, _from, to_python) do
