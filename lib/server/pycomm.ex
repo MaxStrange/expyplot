@@ -56,10 +56,7 @@ defmodule Server.Pycomm do
     cond do
       String.length(chunk) <= max_size ->
         write_line(chunk <> "\n" <> @signal, to_python)
-        received = read_line to_python
-        IO.puts "Got back:"
-        IO.inspect received
-        received
+        read_line to_python
       String.length(chunk) > max_size ->
         write_line(chunk, to_python)
         do_send_to_python(leftover, to_python)
@@ -82,8 +79,6 @@ defmodule Server.Pycomm do
   end
 
   defp write_line(line, to) do
-    IO.puts "Sending:"
-    IO.inspect(line)
     :gen_tcp.send(to, line)
   end
 end
