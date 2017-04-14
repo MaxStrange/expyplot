@@ -20,7 +20,7 @@ defmodule Server.Pyserver do
     # TODO: if I am developing, this is where I am
     #System.cmd("python3", [pwd <> "/lib/server/" <> @pyserver_location, Integer.to_string(@pyport)], [into: IO.stream(:stdio, :line)])
     # TODO: if I am a library, this is where I am
-    System.cmd("python3", [pwd <> "deps/expyplot/lib/server/" <> @pyserver_location, Integer.to_string(@pyport)], [into: IO.stream(:stdio, :line)])
+    System.cmd("python3", [pwd <> "/deps/expyplot/lib/server/" <> @pyserver_location, Integer.to_string(@pyport)], [into: IO.stream(:stdio, :line)])
     {:ok, %{}}
   end
 
