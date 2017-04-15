@@ -24,7 +24,7 @@ defmodule Server.Pycomm do
   Adds the given code to the buffer.
   """
   def eval_code(pid, code) do
-    GenServer.call(pid, {:eval, code})
+    GenServer.call(pid, {:eval, code}, :infinity)
   end
 
   ## Server Callbacks
