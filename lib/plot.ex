@@ -122,6 +122,22 @@ defmodule Expyplot.Plot do
   end
 
   @doc """
+  Turn the axes grids on or off.
+
+  Set the axes grids on or off; b is a boolean. (For MATLAB compatibility, b may also be a string, ‘on’ or ‘off’.)
+
+  If b is None and len(kwargs)==0, toggle the grid state. If kwargs are supplied, it is assumed that you want a grid and b is thus set to True.
+
+  which can be ‘major’ (default), ‘minor’, or ‘both’ to control whether major tick grids, minor tick grids, or both are affected.
+
+  axis can be ‘both’ (default), ‘x’, or ‘y’ to control which set of gridlines are drawn.
+  """
+  def grid(opts \\ [b: nil, which: :major, axis: :both], kwargs \\ []) do
+    code = Codebuilder.build_code(funcname: "plt.grid", nonnamed: [], named: opts ++ kwargs)
+    Server.Commapi.add_code code
+  end
+
+  @doc """
   Add a vertical line across the axes.
   """
   def axvline(opts \\ [x: 0, ymin: 0, ymax: 1, hold: nil], kwargs \\ []) do
@@ -142,18 +158,13 @@ defmodule Expyplot.Plot do
   end
 
   @doc """
-  Turn the axes grids on or off.
+  Make a bar plot.
 
-  Set the axes grids on or off; b is a boolean. (For MATLAB compatibility, b may also be a string, ‘on’ or ‘off’.)
-
-  If b is None and len(kwargs)==0, toggle the grid state. If kwargs are supplied, it is assumed that you want a grid and b is thus set to True.
-
-  which can be ‘major’ (default), ‘minor’, or ‘both’ to control whether major tick grids, minor tick grids, or both are affected.
-
-  axis can be ‘both’ (default), ‘x’, or ‘y’ to control which set of gridlines are drawn.
+  Make a bar plot with rectangles bounded by: <i>left</i>, <i>left + width</i>, <i>bottom</i>, <i>bottom + height</i>
+  (left, right, bottom and top edges).
   """
-  def grid(opts \\ [b: nil, which: :major, axis: :both], kwargs \\ []) do
-    code = Codebuilder.build_code(funcname: "plt.grid", nonnamed: [], named: opts ++ kwargs)
+  def bar(left, height, opts \\ [width: 0.8, bottom: nil, hold: nil, data: nil], kwargs \\ []) do
+    code = Codebuilder.build_code(funcname: "plt.bar", nonnamed: [left, height], named: opts ++ kwargs)
     Server.Commapi.add_code code
   end
 
@@ -163,8 +174,7 @@ defmodule Expyplot.Plot do
   """
   def hist(x, opts \\ [bins: nil, range: nil, normed: false, weights: nil, cumulative: false, bottom: nil, histtype: :bar, align: :mid, orientation: :vertical,
                        rwidth: nil, log: false, color: nil, label: nil, stacked: false, hold: nil, data: nil], kwargs \\ []) do
-    local_x = if Enumerable.impl_for(x), do: Enum.to_list(x), else: x
-    code = Codebuilder.build_code(funcname: "plt.hist", nonnamed: [local_x], named: opts ++ kwargs)
+    code = Codebuilder.build_code(funcname: "plt.hist", nonnamed: [x], named: opts ++ kwargs)
     Server.Commapi.add_code code
   end
 

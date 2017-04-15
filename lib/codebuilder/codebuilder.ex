@@ -31,15 +31,25 @@ defmodule Codebuilder do
     "[" <> list_as_str <> "]"
   end
   defp stringify_variable(v) when is_map(v) do
-    dict_as_str = v |> Enum.reduce("", fn({name, val}, acc) -> acc <> ", " <> stringify_variable(name) <> ": " <> stringify_variable(val) end)
-    dict_as_str = if String.starts_with?(dict_as_str, ", "), do: String.slice(dict_as_str, 2..-1), else: dict_as_str
-    "{" <> dict_as_str <> "}"
+    impl = Enumerable.impl_for v
+    case impl do
+      Enumerable.Range ->
+        # Turns out that streams are maps, who'd have thunk it?
+        v |> Enum.to_list |> stringify_variable
+      Enumerable.Map ->
+        dict_as_str = v |> Enum.reduce("", fn({name, val}, acc) -> acc <> ", " <> stringify_variable(name) <> ": " <> stringify_variable(val) end)
+        dict_as_str = if String.starts_with?(dict_as_str, ", "), do: String.slice(dict_as_str, 2..-1), else: dict_as_str
+        "{" <> dict_as_str <> "}"
+    end
   end
   defp stringify_variable(v) when is_tuple(v) do
      list_as_str = v |> Enum.reduce("", fn (x, acc) -> acc <> ", " <> stringify_variable(x) end)
      list_as_str = if String.ends_with?(list_as_str, ", "), do: String.slice(list_as_str, 0..-3), else: list_as_str
      list_as_str = if String.starts_with?(list_as_str, ", "), do: String.slice(list_as_str, 2..-1), else: list_as_str
     "(" <> list_as_str <> ")"
+  end
+  defp stringify_variable(_) do
+    raise ArgumentError, message: "Type not supported for serialization."
   end
 
   defp stringify_namedarg({name, val}) do
