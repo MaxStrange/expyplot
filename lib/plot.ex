@@ -111,21 +111,6 @@ defmodule Expyplot.Plot do
   end
 
   @doc """
-  Turn the axes grids on or off.
-
-  Set the axes grids on or off; b is a boolean. (For MATLAB compatibility, b may also be a string, ‘on’ or ‘off’.)
-
-  If b is None and len(kwargs)==0, toggle the grid state. If kwargs are supplied, it is assumed that you want a grid and b is thus set to True.
-
-  which can be ‘major’ (default), ‘minor’, or ‘both’ to control whether major tick grids, minor tick grids, or both are affected.
-
-  axis can be ‘both’ (default), ‘x’, or ‘y’ to control which set of gridlines are drawn.
-  """
-  def grid(opts \\ [b: nil, which: :major, axis: :both], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.grid", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
-  end
-
-  @doc """
   Add a vertical line across the axes.
   """
   def axvline(opts \\ [x: 0, ymin: 0, ymax: 1, hold: nil], kwargs \\ []) do
@@ -367,12 +352,172 @@ defmodule Expyplot.Plot do
   end
 
   @doc """
+  Adds a non-resampled image to the figure.
+  """
+  def figimage(opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.figimage", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Place a legend in the figure.
+  """
+  def figlegend(handles, labels, loc, kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.figlegend", nonnamed: [handles, labels, loc], named: kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  """
+  def fignum_exists(num) do
+    Codebuilder.build_code(funcname: "plt.fignum_exists", nonnamed: [num], named: []) |> Server.Commapi.add_code
+  end
+
+  @doc """
   Histogram function. See matplotlib docs for hist:
   http://matplotlib.org/api/pyplot_api.html
   """
   def hist(x, opts \\ [bins: nil, range: nil, normed: false, weights: nil, cumulative: false, bottom: nil, histtype: :bar, align: :mid, orientation: :vertical,
                        rwidth: nil, log: false, color: nil, label: nil, stacked: false, hold: nil, data: nil], kwargs \\ []) do
     Codebuilder.build_code(funcname: "plt.hist", nonnamed: [x], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Add text to figure.
+
+  Add text to figure at location <i>x, y</i> (relative 0-1 coords).
+  """
+  def figtext(opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.figtext", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Creates a new figure.
+  """
+  def figure(opts \\ [num: nil, figsize: nil, dpi: nil, facecolor: nil, edgecolor: nil, frameon: true], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.figure", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Plot filled polygons.
+  """
+  def fill(opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.fill", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Make filled polygons between two curves.
+  """
+  def fill_between_vertical(x, y1, opts \\ [y2: 0, where: nil, interpolate: false, step: nil, hold: nil, data: nil], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.fill_between", nonnamed: [x, y1], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Make filled polygons between two horizontal curves.
+  """
+  def fill_between_horizontal(y, x1, opts \\ [x2: 0, where: nil, step: nil, hold: nil, data: nil], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.fill_between", nonnamed: [y, x1], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Find artist objects.
+
+  Recursively find all Artist instances contained in self.
+  """
+  def findobj(opts \\ [o: nil, match: nil, include_self: true]) do
+    Codebuilder.build_code(funcname: "plt.findobj", nonnamed: [], named: opts) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Set the default colormap to flag and apply to current image if any.
+  """
+  def flag do
+    Codebuilder.build_code(funcname: "plt.flag", nonnamed: [], named: []) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Get the current Axes instance on the current figure matching the given keyword args, or create one.
+  """
+  def gca(kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.gca", named: [], nonnamed: kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Get a reference to the current figure.
+  """
+  def gcf do
+    Codebuilder.build_code(funcname: "plt.gcf", named: [], nonnamed: []) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Get the current colorable artist. Specifically, returns the current ScalarMappable instance (image or patch collection), or "Nothing" if no
+  images or patch collections have been defined. The commands imshow() and figimage() create Image instances, and the commands
+  pcolor() and scatter() create Collection instances. The current image is an attribute of the current axes, or the nearest earlier axes
+  in the current figure that contains an image.
+  """
+  def gci do
+    Codebuilder.build_code(funcname: "plt.gci", nonnamed: [], named: []) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  """
+  def get_current_fig_manager do
+    Codebuilder.build_code(funcname: "plt.get_current_fig_manager", nonnamed: [], named: []) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Return a list of existing figure labels.
+  """
+  def get_figlabels do
+    Codebuilder.build_code(funcname: "plt.get_figlabels", nonnamed: [], named: []) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Return a list of existing figure numbers.
+  """
+  def get_fignums do
+    Codebuilder.build_code(funcname: "plt.get_fignums", nonnamed: [], named: []) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Get a sorted list of all of the plotting commands.
+  """
+  def get_plot_commands do
+    Codebuilder.build_code(funcname: "plt.get_plot_commands", nonnamed: [], named: []) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  This will wait for <i>n</i> clicks from the user and return a list of the coordinates of each click.
+
+  If <i>timeout</i> is zero or negative, does not timeout.
+
+  If <i>n</i> is zero or negative, accumulated clicks until a middle click (or potentially both mouse buttons at once) terminates the input.
+
+  Right clicking cancels last input.
+
+  The buttons used for the various actions (adding points, removing points, terminating the inputs) can be overriden via the arguments
+  <i>mouse_add, mouse_pop</i> and <i>mouse_stop</i>, that give the associated mouse button: 1 for left, 2 for middle, 3 for right.
+
+  The keyboard can also be used to select points in case your mouse does not have one or more of the buttons. The delete and backspace
+  keys act like right clicking (i.e., remove last point), the enter key terminates input and any other key (not already used by the window
+  manager) selects a point.
+  """
+  def ginput(opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.ginput", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Set the default colormap to gray and apply to current image if any.
+  """
+  def gray do
+    Codebuilder.build_code(funcname: "plt.gray", nonnamed: [], named: []) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Turn the axes grids on or off.
+
+  Set the axes grids on or off; <i>b</i> is a boolean. (For MATLAB compatibility, <i>b</i> may also be an atom :on or :off.)
+  """
+  def grid(opts \\ [b: nil, which: :major, axis: :both], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.grid", named: [], nonnamed: opts ++ kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
