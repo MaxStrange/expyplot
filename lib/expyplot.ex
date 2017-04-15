@@ -13,7 +13,7 @@ defmodule Expyplot do
   defp connect_to_python do
     result = Server.Commapi.start_link
     case result do
-      {:ok, _pid} -> {:ok, _pid}
+      {:ok, pid} -> {:ok, pid}
       {:error, {:shutdown, {:failed_to_start_child, Server.Pycomm, {:bad_return_value, {:error, :econnrefused}}}}} -> connect_to_python()
     end
   end
