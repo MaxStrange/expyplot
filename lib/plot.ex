@@ -1,13 +1,20 @@
 defmodule Expyplot.Plot do
   @moduledoc """
-  This is the end-user API for pyplot.
+  <b>This is the end-user API for pyplot.</b>
 
+  See the matplotlib.plot docs at:
   http://matplotlib.org/api/pyplot_api.html
 
   <b>Most of these functions are UNTESTED. I know. That's terrible. But you can test them by using them! Then, if they don't work, open an issue on the github:</b>
   https://github.com/MaxStrange/expyplot/issues
 
   <b>Or better yet, you could write some tests or a patch and open a pull request!</b>
+
+  Also, since the return values are simply the string representations of whatever was returned to the python server, all of the return values
+  will need to be converted into actual Elixir datastructures. I would love to get around to changing this behavior in the future, but for now, it is
+  as it is. <b>This also means that numpy arrays that are returned are likely to be truncated</b>.
+
+  This documentation is mostly just copied from the matplotlib.plot docs, and much of it isn't translated to Elixir like it should be.
   """
 
   @doc """
@@ -829,30 +836,410 @@ defmodule Expyplot.Plot do
   end
 
   @doc """
+  Set the current rc params. Group is the grouping for the rc.
+  """
+  def rc(opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.rc", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Restore the default rc params. These are not the params loaded by the rc file, but mpl's internal params. See rc_file_defaults for reloading
+  the default params from the rc file.
+  """
+  def rcdefaults do
+    Codebuilder.build_code(funcname: "plt.rcdefaults", nonnamed: [], named: []) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Get or set the radial gridlines on a polar plot.
+  """
+  def rgrids(opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.rgrids", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Save the current figure.
+  """
+  def savefig(opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.savefig", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Make a scatter plot of x vs y.
+
+  Marker size is scaled by s and marker color is mapped to c.
+  """
+  def scatter(x, y, opts \\ [s: nil, c: nil, marker: nil, cmap: nil, norm: nil, vmin: nil, vmax: nil, alpha: nil,
+                             linewidths: nil, verts: nil, edgecolors: nil, hold: nil, data: nil], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.scatter", nonnamed: [x, y], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Make a plot with log scaling on the x axis.
+  """
+  def semilogx(opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.semilogx", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Make a plot with log scaling on the y axis.
+  """
+  def semilogy(opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.semilogy", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Set the default colormap. Applies to the current image if any.
+
+  <i>cmap</i> must be the name of a registered colormap.
+  """
+  def set_cmap(cmap) do
+    Codebuilder.build_code(funcname: "plt.set_cmap", nonnamed: [cmap], named: []) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Display a figure.
+  """
+  def show(opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.show", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Plot a spectrogram.
+  """
+  def specgram(x, opts \\ [nfft: nil, fs: nil, fc: nil, detrend: nil, window: nil, noverlap: nil, cmap: nil, xextent: nil, pad_to: nil,
+                           sides: nil, scale_by_freq: nil, mode: nil, scale: nil, vmin: nil, vmax: nil, hold: nil, data: nil], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.specgram", nonnamed: [x], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Set the default colormap to spectral and apply to current image if any.
+  """
+  def spectral do
+    Codebuilder.build_code(funcname: "plt.spectral", nonnamed: [], named: []) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Set the default colormap to spring and apply to current image if any.
+  """
+  def spring do
+    Codebuilder.build_code(funcname: "plt.spring", nonnamed: [], named: []) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Plot the sparsity pattern on a 2-D array.
+
+  spy(z) plots the sparsity pattern of the 2-D array <i>z</i>.
+  """
+  def spy(z, opts \\ [precision: 0, marker: nil, markersize: nil, aspect: :equal], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.spy", nonnamed: [z], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Draws a stacked area plot.
+  """
+  def stackplot(x, opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.stackplot", nonnamed: [x], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Create a stem plot.
+  """
+  def stem(opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.stem", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Make a step plot.
+  """
+  def step(x, y, opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.step", nonnamed: [x, y], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Draws streamlinkes of a vector flow.
+  """
+  def streamplot(x, y, u, v, opts \\ [density: 1, linewidth: nil, color: nil, cmap: nil, norm: nil, arrowsize: 1, arrowstyle: "-|>", minlength: 0.1, transform: nil,
+                                      zorder: nil, start_points: nil, hold: nil, data: nil]) do
+    Codebuilder.build_code(funcname: "plt.streamplot", nonnamed: [x, y, u, v], named: opts) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Return a subplot axes positioned by the given grid definition.
+  """
+  def subplot(opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.subplot", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Create a subplot in a grid. The grid is specified by <i>shape</i>, at location of <i>loc</i>, spanning <i>rowspan, colspan</i> cells in each direction.
+  The index for loc is 0-based.
+  """
+  def subplot2grid(shape, loc, opts \\ [rowspan: 1, colspan: 1], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.subplot2grid", nonnamed: [shape, loc], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Launch a subplot tool window for a figure.
+  """
+  def subplot_tool(opts \\ [targetfig: nil], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.subplot_tool", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Create a figure and a set of subplots.
+
+  This utility wrapper makes it convenient to create common layouts of subplots, including the enclosing figure object, in a single call.
+  """
+  def subplots(opts \\ [nrows: 1, ncols: 1, sharex: false, sharey: false, squeeze: true, subplot_kw: nil, gridspec_kw: nil], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.subplots", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Tune the subplot layout.
+  """
+  def subplots_adjust(opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.subplots_adjust", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Set the default colormap to summer and apply to current image if any.
+  """
+  def summer do
+    Codebuilder.build_code(funcname: "plt.summer", nonnamed: [], named: []) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Add a centered title to the figure.
+  """
+  def suptitle(opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.suptitle", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Add a table to the current axes.
+  """
+  def table(kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.table", nonnamed: [], named: kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Add text to the axes.
+
+  Add text in string <i>s</i> to axis at location <i>x, y</i> data coordinates.
+  """
+  def text(x, y, s, opts \\ [fontdict: nil, withdash: false], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.text", nonnamed: [x, y, s], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Get or set the theta locations of the gridlines in a polar plot.
+
+  If no arguments are passed, return a tuple (<i>lines, labels</i>) where <i>lines</i> is an array of radial gridlines (Line2D instances) and <i>labels</i>
+  is an array of tick labels (Text instances).
+  """
+  def thetagrids(opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.thetagrids", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Change the appearance of ticks and tick labels.
+  """
+  def tick_parameters(opts \\ [axis: :both], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.tick_parameters", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Change the ScalarFormatter used by default for linear axes.
+  """
+  def ticklabel_format(kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.ticklabel_format", nonnamed: [], named: kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Automatically adjust subplot parameters to give specified padding.
+  """
+  def tight_layout(opts \\ [pad: 1.08, h_pad: nil, w_pad: nil, rect: nil]) do
+    Codebuilder.build_code(funcname: "plt.tight_layout", nonnamed: [], named: opts) |> Server.Commapi.add_code
+  end
+
+  @doc """
   Set a title of the current axes.
 
   Set one of hte three available axes titles. The available titles are positioned above the aces in the center, flush with the left edge, and flush
   with the right edge.
   """
-  def title(s, kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.title", nonnamed: [s], named: kwargs) |> Server.Commapi.add_code
+  def title(s, opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.title", nonnamed: [s], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Draw contours on an unstructured triangular grid tricontour() and tricontourf() draw contour lines and filled contours,
+  respectively.
+  """
+  def tricontour(opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.tricontour", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Draw contours on an unstructured triangular grid tricontour() and tricontourf() draw contour lines and filled contours,
+  respectively.
+  """
+  def tricontourf(opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.tricontourf", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Create a pseudocolor plot of an unstructured triangular grid.
+  """
+  def tripcolor(opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.tripcolor", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Draw an unstructured triangular grid as lines and/or markers.
+  """
+  def triplot(opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.triplot", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Make a second axes that shares the <i>x</i>-axis. The new axes will overlay <i>ax</i> (or the current axes if <i>ax</i> is nil). The ticks for
+  <i>ax2</i> will be placed on the right, and the <i>ax2</i> instance is returned.
+  """
+  def twinx(opts \\ [ax: nil]) do
+    Codebuilder.build_code(funcname: "plt.twinx", nonnamed: [], named: opts) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Make a second axes that shares the <i>y</i>-axis. The new axis will overlay <i>ax</i> (or the current axes if <i>ax</i> is nil). The ticks for
+  <i>ax2</i> will be placed on the top, and the <i>ax2</i> instance is returned.
+  """
+  def twiny(opts \\ [ax: nil]) do
+    Codebuilder.build_code(funcname: "plt.twiny", nonnamed: [], named: opts) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Uninstalls the matplotlib display hook.
+  """
+  def uninstall_repl_displayhook do
+    Codebuilder.build_code(funcname: "plt.uninstall_repl_displayhook", nonnamed: [], named: []) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Make a violin plot.
+
+  Make a violin plot for each column of <i>dataset</i> or each vector in sequence <i>dataset</i>. Each filled area extends to represent the entire data
+  range, with optional lines at the mean, the median, the minimum, and the maximum.
+  """
+  def violinplot(dataset, opts \\ [positions: nil, vert: true, widths: 0.5, showmeans: false, showextrema: true, showmedians: false, points: 100, bw_method: nil,
+                                   hold: nil, data: nil]) do
+    Codebuilder.build_code(funcname: "plt.violinplot", nonnamed: [dataset], named: opts) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Set the default colormap to viridis and apply to current image if any.
+  """
+  def viridis do
+    Codebuilder.build_code(funcname: "plt.viridis", nonnamed: [], named: []) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Plot vertical lines.
+
+  Plot vertical lines at each <i>x</i> from <i>ymin</i> to <i>ymax</i>.
+  """
+  def vlines(x, ymin, ymax, opts \\ [colors: :k, linestyles: :solid, label: "", hold: nil, data: nil], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.vlines", nonnamed: [x, ymin, ymax], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Blocking call to interact with the figure.
+
+  This will return "True" if a key was pressed, "False" if a mouse button was pressed and "None" if timeout was reached without either being pressed.
+
+  If <i>timeout</i> is negative, does not timeout.
+  """
+  def waitforbuttonpress(opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.waitforbuttonpress", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Set the default colormap to winter and apply to current image if any.
+  """
+  def winter do
+    Codebuilder.build_code(funcname: "plt.winter", nonnamed: [], named: []) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Plot the cross correlation between <i>x</i> and <i>y</i>.
+  """
+  def xcorr(x, y, opts \\ [normed: true, usevlines: true, maxlags: 10, hold: nil, data: nil], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.xcorr", nonnamed: [x, y], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Turns xkcd sketch-style drawing mode. This will only have effect on things drawn after this function is called.
+
+  For best results, the "Humor Sans" font should be indstalled: it is not included with matplotlib.
+  """
+  def xkcd(opts \\ [scaled: 1, length: 100, randomness: 2], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.xkcd", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
   Set the x axis label of the current axis.
   """
-  def xlabel(s, kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.xlabel", nonnamed: [s], named: kwargs) |> Server.Commapi.add_code
+  def xlabel(s, opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.xlabel", nonnamed: [s], named: opts ++ kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
-  Set the y axis label of the current axis.
+  Get or set the <i>x</i> limits of the current axes.
   """
-  def ylabel(s, kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.ylabel", nonnamed: [s], named: kwargs) |> Server.Commapi.add_code
+  def xlim(opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.xlim", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
   end
 
-  def show do
-    Codebuilder.build_code(funcname: "plt.show", nonnamed: [], named: []) |> Server.Commapi.add_code
+  @doc """
+  Set the scaling of the x-axis.
+  """
+  def xscale(opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.xscale", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Get or set the x-limits of the current tick locations and labels.
+  """
+  def xticks(opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.xticks", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Set the y-axis label of the current axis.
+  """
+  def ylabel(s, opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.ylabel", nonnamed: [s], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Get or set the y-limits of the current axes.
+  """
+  def ylim(opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.ylim", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Set the scaling of the y-axis.
+  """
+  def yscale(opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.yscale", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Get or set the y-limits of the current tick locations and labels.
+  """
+  def yticks(opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.yticks", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
   end
 end

@@ -7,7 +7,9 @@ defmodule Expyplot.Mixfile do
      elixir: "~> 1.4",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     deps: deps()]
+     deps: deps(),
+     docs: docs(),
+    ]
   end
 
   # Configuration for the OTP application
@@ -35,5 +37,9 @@ defmodule Expyplot.Mixfile do
       {:earmark, "~> 0.1"},
       {:ex_doc, "~> 0.11"},
     ]
+  end
+
+  defp docs do
+    [main: "Expyplot.Plot"]
   end
 end
