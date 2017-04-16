@@ -621,6 +621,214 @@ defmodule Expyplot.Plot do
   end
 
   @doc """
+  Turn interactive mode on.
+  """
+  def ion do
+    Codebuilder.build_code(funcname: "plt.ion", nonnamed: [], named: []) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Return status of interactive mode.
+  """
+  def isinteractive do
+    Codebuilder.build_code(funcname: "plt.isinteractive", nonnamed: [], named: []) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Set the default coormap to jet and apply to current image if any.
+  """
+  def jet do
+    Codebuilder.build_code(funcname: "plt.jet", nonnamed: [], named: []) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Places a legend on the axes.
+  """
+  def legend(opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.legend", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Control behavior of tick locators.
+  """
+  def locator_params(opts \\ [axis: :both, tight: nil], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.locator_params", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Make a plot with log scaling on both the <i>x</i> and <i>y</i> axis.
+
+  loglog() supports all the keyword arguments of plot() and matplotlib.axes.Axes.set_xscale() / matplotlib.axes.Axes.set_yscale().
+  """
+  def loglog(opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.loglog", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Set the default colormap to magma and apply to current image if any.
+  """
+  def magma do
+    Codebuilder.build_code(funcname: "plt.magma", nonnamed: [], named: []) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Plot the magnitude spectrum.
+  """
+  def magnitude_spectrum(x, opts \\ [fs: nil, fc: nil, window: nil, pad_to: nil, sides: nil, scale: nil, hold: nil, data: nil], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.magnitude_spectrum", nonnamed: [x], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Set or retrieve autoscaling margins.
+  """
+  def margins(opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.margins", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Display an array as a matrix in a new figure window.
+
+  The origin is set at the upper left hand corner and rows (first dimension of the array) are displayed horizontally. The aspect ratio of the
+  figure window is that of the array, unless this would make an excessively short or narrow figure.
+
+  Tick labels for the xaxis are placed on top.
+  """
+  def matshow(a, opts \\ [fignum: nil], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.matshow", nonnamed: [a], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Remove minor ticks from the current plot.
+  """
+  def minorticks_off do
+    Codebuilder.build_code(funcname: "plt.minorticks_off", nonnamed: [], named: []) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Set the default colormap to nipy_spectral and apply to current image if any.
+  """
+  def nipy_spectral do
+    Codebuilder.build_code(funcname: "plt.nipy_spectral", nonnamed: [], named: []) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Pause for <i>interval</i> seconds.
+
+  If there is an active figure it will be updated and displayed, and the GUI event loop will run during the pause.
+
+  If there is no active figure, or if a non-interactive backend is in use, this executes time.sleep(interval).
+
+  This can be used for crude animation.
+  """
+  def pause(interval) do
+    Codebuilder.build_code(funcname: "plt.interval", nonnamed: [interval], named: []) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Create a pseudocolor plot of a 2-D array.
+  """
+  def pcolor(opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.pcolor", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Plot a quadrilateral mesh.
+  """
+  def pcolormesh(opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.pcolormesh", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Plot the phase spectrum.
+  """
+  def phase_spectrum(x, opts \\ [fs: nil, fc: nil, window: nil, pad_to: nil, sides: nil, hold: nil, data: nil], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.phase_spectrum", nonnamed: [x], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Plot a pie chart.
+
+  Make a pie chart of array x. The fractional area of each wedge is given by x / sum(x). If sum(x) <= 1, then the values of x give the fractional
+  area directly and the array will not be normalized. The wedges are plotted counterclockwise, by default starting from the x-axis.
+  """
+  def pie(x, opts \\ [explod: nil, labels: nil, colors: nil, autopct: nil, pctdistance: 0.6, shadow: false, labeldistance: 1.1, startangle: nil,
+                      radius: nil, counterclock: true, wedgeprops: nil, textprops: nil, center: {0, 0}, frame: false, hold: nil, data: nil]) do
+    Codebuilder.build_code(funcname: "plt.pie", nonnamed: [x], named: opts) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Set the default colormap to pink and apply to current image if any.
+  """
+  def pink do
+    Codebuilder.build_code(funcname: "plt.pink", nonnamed: [], named: []) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Set the default colormap to plasma and apply to current image if any.
+  """
+  def plasma do
+    Codebuilder.build_code(funcname: "plt.plasma", nonnamed: [], named: []) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Plot lines and/or markers to the Axes. <i>args</i> is a variable length argument, allowing for multiple <i>x, y</i> pairs with an optional format string.
+  """
+  def plot(opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.plot", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  A plot with data that contains dates.
+  """
+  def plot_date(x, y, opts \\ [fmt: :o, tz: nil, xdate: true, ydate: false, hold: nil, data: nil], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.plot_date", nonnamed: [x, y], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Plot the data in a file.
+  """
+  def plotfile(fname, opts \\ [cols: {0}, plotfuncs: nil, comments: "#", skiprows: 0, checkrows: 5, delimiter: ",", names: nil, subplots: true,
+                               newfig: true], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.plotfile", nonnamed: [fname], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  make a polar plot.
+  """
+  def polar(opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.polar", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Set the default colormap to prism and apply to current image if any.
+  """
+  def prism do
+    Codebuilder.build_code(funcname: "plt.prism", nonnamed: [], named: []) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Plot the power spectral density.
+  """
+  def psd(x, opts \\ [nfft: nil, fs: nil, fc: nil, detrend: nil, window: nil, noverlap: nil, pad_to: nil, sides: nil, scale_by_freq: nil,
+                      return_line: nil, hold: nil, data: nil], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.psd", nonnamed: [x], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Plot a 2-D field of arrows.
+  """
+  def quiver(opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.quiver", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Add a key to a quiver plot.
+  """
+  def quiverkey(opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.quiverkey", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
   Set a title of the current axes.
 
   Set one of hte three available axes titles. The available titles are positioned above the aces in the center, flush with the left edge, and flush
