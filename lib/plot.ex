@@ -372,15 +372,6 @@ defmodule Expyplot.Plot do
   end
 
   @doc """
-  Histogram function. See matplotlib docs for hist:
-  http://matplotlib.org/api/pyplot_api.html
-  """
-  def hist(x, opts \\ [bins: nil, range: nil, normed: false, weights: nil, cumulative: false, bottom: nil, histtype: :bar, align: :mid, orientation: :vertical,
-                       rwidth: nil, log: false, color: nil, label: nil, stacked: false, hold: nil, data: nil], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.hist", nonnamed: [x], named: opts ++ kwargs) |> Server.Commapi.add_code
-  end
-
-  @doc """
   Add text to figure.
 
   Add text to figure at location <i>x, y</i> (relative 0-1 coords).
@@ -518,6 +509,115 @@ defmodule Expyplot.Plot do
   """
   def grid(opts \\ [b: nil, which: :major, axis: :both], kwargs \\ []) do
     Codebuilder.build_code(funcname: "plt.grid", named: [], nonnamed: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Make a hexagonal binning plot.
+
+  Make a hexagonal binning plot of <i>x</i> versus <i>y</i>, where <i>x, y</i> are 1-D sequences of the same length, <i>N</i>. If <i>C</i> is
+  nil (the default), this is a histogram of the number of occurrences of the observations at (x[i], y[i]).
+
+  If <i>C</i> is specified, it specifies values at the coordinate (x[i], y[i]). These values are accumulated for each hexagonal bin and then reduced
+  according to <i>reduce_C_function</i>, which defaults to numpy's mean function (np.mean). (If <i>C</i> is specified, it must also be a 1-D sequence
+  of the same length as <i>x</i> and <i>y</i>.)
+  """
+  def hexbin(x, y, opts \\ [c: nil, gridsize: 100, bins: nil, xscale: :linear, yscale: :linear, extent: nil, cmap: nil, norm: nil, vmin: nil, vmax: nil,
+                            alpha: nil, linewidths: nil, edgecolors: :none, mincnt: nil, marginals: false, hold: nil, data: nil], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.hexbin", named: [x, y], nonnamed: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Plot a histogram.
+
+  Compute and draw the histogram of <i>x</i>. The return value is a tuple (<i>n, bins, patches</i>) or (<i>[n0, n1, ...], bins, [patches0, patches1, ...]</i>)
+  if the input contains multiple data.
+
+  Multiple data can be provided via <i>x</i> as a list of datasets of potentially different length, or as a 2-D ndarray in which each column is a dataset.
+  Note that the ndarray form is transposed relative to the list form.
+
+  Masked arrays are not supported at present.
+  """
+  def hist(x, opts \\ [bins: nil, range: nil, normed: false, weights: nil, cumulative: false, bottom: nil, histtype: :bar, align: :mid, orientation: :vertical,
+                       rwidth: nil, log: false, color: nil, label: nil, stacked: false, hold: nil, data: nil], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.hist", nonnamed: [x], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Make a 2D histogram plot.
+  """
+  def hist2d(x, y, opts \\ [bins: 10, range: nil, normed: false, weights: nil, cmin: nil, cmax: nil, hold: nil, data: nil], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.hist2d", nonnamed: [x, y], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Plot horizontal lines at each <i>y</i> from <i>xmin</i> to <i>xmax</i>.
+  """
+  def hlines(y, xmin, xmax, opts \\ [colors: :k, linestyles: :solid, label: "", hold: nil, data: nil], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.hlines", nonnamed: [y, xmin, xmax], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Set the default colormap to hot and apply to current image if any.
+  """
+  def hot do
+    Codebuilder.build_code(funcname: "plt.hot", nonnamed: [], named: []) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Set the default colormap to hsv and apply to current image if any.
+  """
+  def hsv do
+    Codebuilder.build_code(funcname: "plt.hsv", nonnamed: [], named: []) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Read an image from a file into an array.
+
+  <i>fname</i> may be a string path, or a valid URL.
+
+  If <i>format</i> is provided, will try to read file of that type, otherwise the format is deduced from the filename. If nothing can be deduced, PNG
+  is tried.
+
+  Return value is a numpy.array <b>But in expyplot, this will return a string, and it probably won't work</b>. For grayscale images, the return array is MxN.
+  For RGB images, the return value is MxNx4.
+
+  matplotlib can only read PNGs natively, but if PIL is installed, it will use it to load the image and return an array (if possible) which can
+  be used with imshow(). Note, URL strings may not be compatible with PIL. Check the PIL documentation for more information.
+  """
+  def imread(opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.imread", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Save an array as an image file.
+
+  The output formats available depend on the backend being used.
+  """
+  def imsave(opts \\ [], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.imsave", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Display an image on the axes.
+  """
+  def imshow(x, opts \\ [cmap: nil, norm: nil, aspect: nil, interpolation: nil, alpha: nil, vmin: nil, vmax: nil,
+                         origin: nil, extent: nil, shape: nil, filternorm: 1, filterrad: 4.0, imlim: nil, resample: nil,
+                         url: nil, hold: nil, data: nil], kwargs \\ []) do
+    Codebuilder.build_code(funcname: "plt.imshow", nonnamed: [x], named: opts ++ kwargs) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Set the default colormap to inferno and apply to current image if any.
+  """
+  def inferno do
+    Codebuilder.build_code(funcname: "plt.inferno", nonnamed: [], named: []) |> Server.Commapi.add_code
+  end
+
+  @doc """
+  Turn interactive mode off.
+  """
+  def ioff do
+    Codebuilder.build_code(funcname: "plt.ioff", nonnamed: [], named: []) |> Server.Commapi.add_code
   end
 
   @doc """
