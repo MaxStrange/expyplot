@@ -30,7 +30,7 @@ defmodule Expyplot.Plot do
   Compute the angle spectrum (wrapped phase spectrum) of x. Data is padded to a length of pad_to and the windowing function window <b>Not used yet
   in Expyplot</b> is applied to the signal.
   """
-  def angle_spectrum(x, opts \\ [fs: 2, fc: 0, pad_to: nil, sides: :default], kwargs \\ []) do
+  def angle_spectrum(x, opts \\ [_Fs: 2, _Fc: 0, pad_to: nil, sides: :default], kwargs \\ []) do
     Codebuilder.build_code(funcname: "plt.angle_spectrum", nonnamed: [x], named: opts ++ kwargs) |> Server.Commapi.add_code
   end
 
@@ -40,7 +40,7 @@ defmodule Expyplot.Plot do
   Additional kwargs are passed to Text.
   """
   def annotate(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.annotate", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.annotate", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
@@ -80,7 +80,7 @@ defmodule Expyplot.Plot do
   - axes(h) where h is an axes instance makes h the current axis.
   """
   def axes(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.axes", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.axes", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
@@ -149,7 +149,7 @@ defmodule Expyplot.Plot do
   Plot a 2-D field of barbs.
   """
   def barbs(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.barbs", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.barbs", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
@@ -206,7 +206,7 @@ defmodule Expyplot.Plot do
   Label a contour plot.
   """
   def clabel(cs, opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.clabel", nonnamed: [cs], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.clabel", nonnamed: [cs] ++ opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
@@ -241,7 +241,7 @@ defmodule Expyplot.Plot do
   <i>close(:all)</i> closes all the figure windows
   """
   def close(opts \\ []) do
-    Codebuilder.build_code(funcname: "plt.close", nonnamed: opts) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.close", nonnamed: opts, named: []) |> Server.Commapi.add_code
   end
 
   @doc """
@@ -249,7 +249,7 @@ defmodule Expyplot.Plot do
 
   Plot the coherence between <i>x</i> and <i>y</i>. Coherence is the normalized cross spectral density.
   """
-  def cohere(x, y, opts \\ [nfft: 256, fs: 2, fc: 0, noverlap: 0, pad_to: nil, sides: :default, scale_by_freq: nil, hold: nil, data: nil], kwargs \\ []) do
+  def cohere(x, y, opts \\ [nfft: 256, _Fs: 2, _Fc: 0, noverlap: 0, pad_to: nil, sides: :default, scale_by_freq: nil, hold: nil, data: nil], kwargs \\ []) do
     Codebuilder.build_code(funcname: "plt.cohere", nonnamed: [x, y], named: opts ++ kwargs) |> Server.Commapi.add_code
   end
 
@@ -276,7 +276,7 @@ defmodule Expyplot.Plot do
   contourf() differs from the MATLAB version in that it does not draw the polygon edges. To draw edges, add line contours with calls to contour().
   """
   def contour(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.contour", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.contour", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
@@ -288,7 +288,7 @@ defmodule Expyplot.Plot do
   contourf() differs from the MATLAB version in that it does not draw the polygon edges. To draw edges, add line contours with calls to contour().
   """
   def contourf(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.contourf", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.contourf", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
@@ -308,7 +308,7 @@ defmodule Expyplot.Plot do
   @doc """
   Plot the cross-spectral density.
   """
-  def csd(x, y, opts \\ [nfft: 256, fs: 2, fc: 0, noverlap: 0, pad_to: nil, sides: :default, scale_by_freq: nil, return_line: nil], kwargs \\ []) do
+  def csd(x, y, opts \\ [nfft: 256, _Fs: 2, _Fc: 0, noverlap: 0, pad_to: nil, sides: :default, scale_by_freq: nil, return_line: nil], kwargs \\ []) do
     Codebuilder.build_code(funcname: "plt.csd", nonnamed: [x, y], named: opts ++ kwargs) |> Server.Commapi.add_code
   end
 
@@ -316,7 +316,7 @@ defmodule Expyplot.Plot do
   Remove an axes from the current figure. If <i>ax</i> doesn't exist, an error will be raised.
   """
   def delaxes(opts \\ []) do
-    Codebuilder.build_code(funcname: "plt.delaxes", nonnamed: [], named: opts) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.delaxes", nonnamed: opts, named: []) |> Server.Commapi.add_code
   end
 
   @doc """
@@ -362,7 +362,7 @@ defmodule Expyplot.Plot do
   Adds a non-resampled image to the figure.
   """
   def figimage(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.figimage", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.figimage", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
@@ -384,7 +384,7 @@ defmodule Expyplot.Plot do
   Add text to figure at location <i>x, y</i> (relative 0-1 coords).
   """
   def figtext(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.figtext", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.figtext", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
@@ -398,7 +398,7 @@ defmodule Expyplot.Plot do
   Plot filled polygons.
   """
   def fill(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.fill", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.fill", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
@@ -499,7 +499,7 @@ defmodule Expyplot.Plot do
   manager) selects a point.
   """
   def ginput(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.ginput", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.ginput", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
@@ -515,7 +515,7 @@ defmodule Expyplot.Plot do
   Set the axes grids on or off; <i>b</i> is a boolean. (For MATLAB compatibility, <i>b</i> may also be an atom :on or :off.)
   """
   def grid(opts \\ [b: nil, which: :major, axis: :both], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.grid", named: [], nonnamed: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.grid", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
@@ -530,7 +530,7 @@ defmodule Expyplot.Plot do
   """
   def hexbin(x, y, opts \\ [c: nil, gridsize: 100, bins: nil, xscale: :linear, yscale: :linear, extent: nil, cmap: nil, norm: nil, vmin: nil, vmax: nil,
                             alpha: nil, linewidths: nil, edgecolors: :none, mincnt: nil, marginals: false, hold: nil, data: nil], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.hexbin", named: [x, y], nonnamed: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.hexbin", nonnamed: [x, y], named: opts ++ kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
@@ -592,7 +592,7 @@ defmodule Expyplot.Plot do
   be used with imshow(). Note, URL strings may not be compatible with PIL. Check the PIL documentation for more information.
   """
   def imread(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.imread", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.imread", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
@@ -601,7 +601,7 @@ defmodule Expyplot.Plot do
   The output formats available depend on the backend being used.
   """
   def imsave(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.imsave", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.imsave", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
@@ -652,7 +652,7 @@ defmodule Expyplot.Plot do
   Places a legend on the axes.
   """
   def legend(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.legend", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.legend", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
@@ -668,7 +668,7 @@ defmodule Expyplot.Plot do
   loglog() supports all the keyword arguments of plot() and matplotlib.axes.Axes.set_xscale() / matplotlib.axes.Axes.set_yscale().
   """
   def loglog(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.loglog", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.loglog", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
@@ -681,7 +681,7 @@ defmodule Expyplot.Plot do
   @doc """
   Plot the magnitude spectrum.
   """
-  def magnitude_spectrum(x, opts \\ [fs: nil, fc: nil, window: nil, pad_to: nil, sides: nil, scale: nil, hold: nil, data: nil], kwargs \\ []) do
+  def magnitude_spectrum(x, opts \\ [_Fs: nil, _Fc: nil, window: nil, pad_to: nil, sides: nil, scale: nil, hold: nil, data: nil], kwargs \\ []) do
     Codebuilder.build_code(funcname: "plt.magnitude_spectrum", nonnamed: [x], named: opts ++ kwargs) |> Server.Commapi.add_code
   end
 
@@ -689,7 +689,7 @@ defmodule Expyplot.Plot do
   Set or retrieve autoscaling margins.
   """
   def margins(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.margins", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.margins", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
@@ -735,20 +735,20 @@ defmodule Expyplot.Plot do
   Create a pseudocolor plot of a 2-D array.
   """
   def pcolor(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.pcolor", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.pcolor", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
   Plot a quadrilateral mesh.
   """
   def pcolormesh(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.pcolormesh", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.pcolormesh", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
   Plot the phase spectrum.
   """
-  def phase_spectrum(x, opts \\ [fs: nil, fc: nil, window: nil, pad_to: nil, sides: nil, hold: nil, data: nil], kwargs \\ []) do
+  def phase_spectrum(x, opts \\ [_Fs: nil, _Fc: nil, window: nil, pad_to: nil, sides: nil, hold: nil, data: nil], kwargs \\ []) do
     Codebuilder.build_code(funcname: "plt.phase_spectrum", nonnamed: [x], named: opts ++ kwargs) |> Server.Commapi.add_code
   end
 
@@ -781,7 +781,7 @@ defmodule Expyplot.Plot do
   Plot lines and/or markers to the Axes. <i>args</i> is a variable length argument, allowing for multiple <i>x, y</i> pairs with an optional format string.
   """
   def plot(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.plot", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.plot", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
@@ -803,7 +803,7 @@ defmodule Expyplot.Plot do
   make a polar plot.
   """
   def polar(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.polar", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.polar", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
@@ -816,7 +816,7 @@ defmodule Expyplot.Plot do
   @doc """
   Plot the power spectral density.
   """
-  def psd(x, opts \\ [nfft: nil, fs: nil, fc: nil, detrend: nil, window: nil, noverlap: nil, pad_to: nil, sides: nil, scale_by_freq: nil,
+  def psd(x, opts \\ [nfft: nil, _Fs: nil, _Fc: nil, detrend: nil, window: nil, noverlap: nil, pad_to: nil, sides: nil, scale_by_freq: nil,
                       return_line: nil, hold: nil, data: nil], kwargs \\ []) do
     Codebuilder.build_code(funcname: "plt.psd", nonnamed: [x], named: opts ++ kwargs) |> Server.Commapi.add_code
   end
@@ -825,21 +825,21 @@ defmodule Expyplot.Plot do
   Plot a 2-D field of arrows.
   """
   def quiver(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.quiver", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.quiver", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
   Add a key to a quiver plot.
   """
   def quiverkey(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.quiverkey", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.quiverkey", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
   Set the current rc params. Group is the grouping for the rc.
   """
   def rc(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.rc", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.rc", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
@@ -854,14 +854,14 @@ defmodule Expyplot.Plot do
   Get or set the radial gridlines on a polar plot.
   """
   def rgrids(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.rgrids", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.rgrids", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
   Save the current figure.
   """
   def savefig(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.savefig", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.savefig", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
@@ -878,14 +878,14 @@ defmodule Expyplot.Plot do
   Make a plot with log scaling on the x axis.
   """
   def semilogx(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.semilogx", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.semilogx", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
   Make a plot with log scaling on the y axis.
   """
   def semilogy(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.semilogy", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.semilogy", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
@@ -901,13 +901,13 @@ defmodule Expyplot.Plot do
   Display a figure.
   """
   def show(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.show", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.show", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
   Plot a spectrogram.
   """
-  def specgram(x, opts \\ [nfft: nil, fs: nil, fc: nil, detrend: nil, window: nil, noverlap: nil, cmap: nil, xextent: nil, pad_to: nil,
+  def specgram(x, opts \\ [nfft: nil, _Fs: nil, _Fc: nil, detrend: nil, window: nil, noverlap: nil, cmap: nil, xextent: nil, pad_to: nil,
                            sides: nil, scale_by_freq: nil, mode: nil, scale: nil, vmin: nil, vmax: nil, hold: nil, data: nil], kwargs \\ []) do
     Codebuilder.build_code(funcname: "plt.specgram", nonnamed: [x], named: opts ++ kwargs) |> Server.Commapi.add_code
   end
@@ -939,21 +939,21 @@ defmodule Expyplot.Plot do
   Draws a stacked area plot.
   """
   def stackplot(x, opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.stackplot", nonnamed: [x], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.stackplot", nonnamed: [x] ++ opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
   Create a stem plot.
   """
   def stem(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.stem", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.stem", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
   Make a step plot.
   """
   def step(x, y, opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.step", nonnamed: [x, y], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.step", nonnamed: [x, y] ++ opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
@@ -968,7 +968,7 @@ defmodule Expyplot.Plot do
   Return a subplot axes positioned by the given grid definition.
   """
   def subplot(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.subplot", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.subplot", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
@@ -999,7 +999,7 @@ defmodule Expyplot.Plot do
   Tune the subplot layout.
   """
   def subplots_adjust(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.subplots_adjust", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.subplots_adjust", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
@@ -1013,7 +1013,7 @@ defmodule Expyplot.Plot do
   Add a centered title to the figure.
   """
   def suptitle(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.suptitle", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.suptitle", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
@@ -1039,7 +1039,7 @@ defmodule Expyplot.Plot do
   is an array of tick labels (Text instances).
   """
   def thetagrids(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.thetagrids", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.thetagrids", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
@@ -1070,7 +1070,7 @@ defmodule Expyplot.Plot do
   with the right edge.
   """
   def title(s, opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.title", nonnamed: [s], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.title", nonnamed: [s] ++ opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
@@ -1078,7 +1078,7 @@ defmodule Expyplot.Plot do
   respectively.
   """
   def tricontour(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.tricontour", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.tricontour", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
@@ -1086,21 +1086,21 @@ defmodule Expyplot.Plot do
   respectively.
   """
   def tricontourf(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.tricontourf", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.tricontourf", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
   Create a pseudocolor plot of an unstructured triangular grid.
   """
   def tripcolor(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.tripcolor", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.tripcolor", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
   Draw an unstructured triangular grid as lines and/or markers.
   """
   def triplot(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.triplot", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.triplot", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
@@ -1161,7 +1161,7 @@ defmodule Expyplot.Plot do
   If <i>timeout</i> is negative, does not timeout.
   """
   def waitforbuttonpress(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.waitforbuttonpress", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.waitforbuttonpress", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
@@ -1191,55 +1191,55 @@ defmodule Expyplot.Plot do
   Set the x axis label of the current axis.
   """
   def xlabel(s, opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.xlabel", nonnamed: [s], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.xlabel", nonnamed: [s] ++ opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
   Get or set the <i>x</i> limits of the current axes.
   """
   def xlim(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.xlim", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.xlim", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
   Set the scaling of the x-axis.
   """
   def xscale(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.xscale", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.xscale", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
   Get or set the x-limits of the current tick locations and labels.
   """
   def xticks(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.xticks", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.xticks", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
   Set the y-axis label of the current axis.
   """
   def ylabel(s, opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.ylabel", nonnamed: [s], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.ylabel", nonnamed: [s] ++ opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
   Get or set the y-limits of the current axes.
   """
   def ylim(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.ylim", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.ylim", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
   Set the scaling of the y-axis.
   """
   def yscale(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.yscale", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.yscale", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 
   @doc """
   Get or set the y-limits of the current tick locations and labels.
   """
   def yticks(opts \\ [], kwargs \\ []) do
-    Codebuilder.build_code(funcname: "plt.yticks", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.yticks", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
   end
 end

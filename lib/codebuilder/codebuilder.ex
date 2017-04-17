@@ -53,6 +53,8 @@ defmodule Codebuilder do
   end
 
   defp stringify_namedarg({name, val}) do
-    Atom.to_string(name) <> "=" <> stringify_variable(val)
+    name = Atom.to_string name
+    name = if String.starts_with?(name, "_"), do: String.slice(name, 1..-1), else: name
+    name <> "=" <> stringify_variable(val)
   end
 end

@@ -43,7 +43,7 @@ def send_to_caller(result):
 
 def stringify(result):
     if isinstance(result, np.ndarray):
-        return str(result.tolist()) + signal
+        return np.array_str(result) + signal
     else:
         return str(result) + signal
 
