@@ -33,7 +33,7 @@ defmodule Expyplot.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:statistics, "~> 0.4.1", only: :dev},
+      {:statistics, "~> 0.4.1"},
       {:earmark, "~> 0.1"},
       {:ex_doc, "~> 0.11"},
     ]

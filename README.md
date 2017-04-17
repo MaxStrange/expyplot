@@ -3,6 +3,8 @@
 Inspired by this project:
 https://github.com/JordiPolo/explot, but I wanted something more transparent.
 
+<b>Documentation can be found at</b> [https://hexdocs.pm/expyplot](https://hexdocs.pm/expyplot).
+
 Expyplot allows you to use 'all' of the functions in matplotlib.plot (in reality, there are some that I left out because they don't make any sense in this context, or
 are deprecated).
 
@@ -30,7 +32,7 @@ between this library and the real matplotlib.pyplot:
 
 ## Examples
 
-To run the examples, start an iex -S mix session while in :dev mode and run:
+To run the examples, start an iex -S mix session and run:
 
 ```elixir
 Code.load_file "./path/to/example/EXAMPLE.exs"
@@ -70,7 +72,7 @@ defmodule SpectralExample do
   r = t |> Enum.map(&(Statistics.Math.exp(- &1 / 0.05)))
 
   cnse = nse |> Enum.map(&(&1 * Enum.random(r))) |> Enum.take(length(t)) # fake convolution. I didn't feel like writing a functional convolution.
-  s = t |> Enum.map(&(:math.sin(2 * Statistics.Math.pi * &1)))
+  s = t |> Enum.map(&(:math.sin(2 * Statistics.Math.pi * &1))) |> Enum.zip(cnse) |> Enum.map(fn {el1, el2} -> el1 + el2 end)
 
   Plot.subplot([3, 2, 1])
   Plot.plot([t, s])
@@ -97,16 +99,9 @@ end
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `expyplot` to your list of dependencies in `mix.exs`:
-
 ```elixir
 def deps do
-  [{:expyplot, "~> 0.1.0"}]
+  [{:expyplot, "~> 1.0.0"}]
 end
 ```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/expyplot](https://hexdocs.pm/expyplot).
 
