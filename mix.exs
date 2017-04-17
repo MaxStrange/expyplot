@@ -1,14 +1,18 @@
 defmodule Expyplot.Mixfile do
   use Mix.Project
 
+  @version "1.0.0"
+
   def project do
     [app: :expyplot,
-     version: "1.0.0",
+     version: @version,
      elixir: "~> 1.4",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps(),
      docs: docs(),
+     package: package(),
+     description: description(),
     ]
   end
 
@@ -41,5 +45,22 @@ defmodule Expyplot.Mixfile do
 
   defp docs do
     [main: "Expyplot.Plot"]
+  end
+
+  defp package do
+    [
+      files: ["lib", "mix.exs", "README.md", "config", "priv", "examples", "LICENSE"],
+      maintainers: ["Max Strange"],
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/MaxStrange/expyplot"}
+    ]
+  end
+
+  defp description do
+    """
+    Python's matplotlib.pyplot ported to Elixir. Inspired by https://github.com/JordiPolo/explot
+
+    This library provides a fairly transparent wrapper for matplotlib.pyplot.
+    """
   end
 end
