@@ -43,7 +43,7 @@ defmodule Codebuilder do
     end
   end
   defp stringify_variable(v) when is_tuple(v) do
-     list_as_str = v |> Enum.reduce("", fn (x, acc) -> acc <> ", " <> stringify_variable(x) end)
+     list_as_str = v |> Tuple.to_list |> Enum.reduce("", fn (x, acc) -> acc <> ", " <> stringify_variable(x) end)
      list_as_str = if String.ends_with?(list_as_str, ", "), do: String.slice(list_as_str, 0..-3), else: list_as_str
      list_as_str = if String.starts_with?(list_as_str, ", "), do: String.slice(list_as_str, 2..-1), else: list_as_str
     "(" <> list_as_str <> ")"

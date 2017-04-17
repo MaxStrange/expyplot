@@ -758,7 +758,7 @@ defmodule Expyplot.Plot do
   Make a pie chart of array x. The fractional area of each wedge is given by x / sum(x). If sum(x) <= 1, then the values of x give the fractional
   area directly and the array will not be normalized. The wedges are plotted counterclockwise, by default starting from the x-axis.
   """
-  def pie(x, opts \\ [explod: nil, labels: nil, colors: nil, autopct: nil, pctdistance: 0.6, shadow: false, labeldistance: 1.1, startangle: nil,
+  def pie(x, opts \\ [explode: nil, labels: nil, colors: nil, autopct: nil, pctdistance: 0.6, shadow: false, labeldistance: 1.1, startangle: nil,
                       radius: nil, counterclock: true, wedgeprops: nil, textprops: nil, center: {0, 0}, frame: false, hold: nil, data: nil]) do
     Codebuilder.build_code(funcname: "plt.pie", nonnamed: [x], named: opts) |> Server.Commapi.add_code
   end
