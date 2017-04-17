@@ -221,7 +221,7 @@ defmodule Expyplot.Plot do
 
   To apply clim to all axes images do:
   ```elixir
-  clim(0, 0.5)
+  clim(vmin: 0, vmax: 0.5)
   ```
   If either <i>vmin</i> or <i>vmax</i> is nil, the image min/max respectively will be used for color scaling.
   """
