@@ -8,7 +8,7 @@ defmodule SpectralExample do
   r = t |> Enum.map(&(Statistics.Math.exp(- &1 / 0.05)))
 
   cnse = nse |> Enum.map(&(&1 * Enum.random(r))) |> Enum.take(length(t)) # fake convolution. I didn't feel like writing a functional convolution.
-  s = t |> Enum.map(&(:math.sin(2 * Statistics.Math.pi * &1)))
+  s = t |> Enum.map(&(:math.sin(2 * Statistics.Math.pi * &1))) |> Enum.zip(cnse) |> Enum.map(fn {el1, el2} -> el1 + el2 end)
 
   Plot.subplot([3, 2, 1])
   Plot.plot([t, s])
