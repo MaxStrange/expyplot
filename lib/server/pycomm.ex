@@ -79,6 +79,7 @@ defmodule Server.Pycomm do
   end
 
   defp write_line(line, to) do
+    IO.puts "I wrote: #{line}"
     :gen_tcp.send(to, line)
   end
 end

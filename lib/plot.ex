@@ -779,6 +779,17 @@ defmodule Expyplot.Plot do
 
   @doc """
   Plot lines and/or markers to the Axes. <i>args</i> is a variable length argument, allowing for multiple <i>x, y</i> pairs with an optional format string.
+
+  Due to the differences between function signatures in Python and Elixir, the typical usage of this function is a little different than what you would
+  expect:
+
+      iex> Expyplot.Plot.plot([[1, 2, 3, 4, 5]])
+
+      or
+
+      iex> Expyplot.Plot.plot([1..5])
+
+  Notice the nesting of the list or range.
   """
   def plot(opts \\ [], kwargs \\ []) do
     Codebuilder.build_code(funcname: "plt.plot", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
