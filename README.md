@@ -55,7 +55,7 @@ defmodule HistogramExample do
   Plot.show()
 end
 ```
-
+![Histogram][images/histogram.png]
 
 ### Subplots
 
@@ -93,6 +93,7 @@ defmodule SpectralExample do
   Plot.show()
 end
 ```
+![Subplots][images/subplots.png]
 
 ## Installation
 
