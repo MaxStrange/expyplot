@@ -780,6 +780,20 @@ defmodule Expyplot.Plot do
   @doc """
   Plot lines and/or markers to the Axes. <i>args</i> is a variable length argument, allowing for multiple <i>x, y</i> pairs with an optional format string.
 
+  Each of the following is legal:
+  ```elixir
+  x = 1..10 |> Enum.to_list
+  y = 11..20 |> Enum.to_list
+  Expyplot.Plot.plot([x, y])          # plot x and y using default line style and color
+  Expyplot.Plot.plot([x, y, "bo"])    # plot x and y using blue circle markers
+  Expyplot.Plot.plot([y])             # plot y using x as index array 0..N-1
+  Expyplot.Plot.plot([y, "r+"])       # ditto, but with red plusses
+
+  x2 = 1..5 |> Enum.to_list
+  y2 = 3..7 |> Enum.to_list
+  Expyplot.Plot.plot([x, y, "g^", x2, y2, "g-"])
+  ```
+
   Due to the differences between function signatures in Python and Elixir, the typical usage of this function is a little different than what you would
   expect:
 
@@ -790,6 +804,15 @@ defmodule Expyplot.Plot do
       iex> Expyplot.Plot.plot([1..5])
 
   Notice the nesting of the list or range.
+
+  ## Examples with keyword args
+
+  ```elixir
+  Expyplot.Plot.plot([[1, 2, 3], [1, 2, 3], "go-"], label: "line 1", linewidth: 2)
+  Expyplot.Plot.plot([[1, 2, 3], [1, 4, 9], "rs"], label: "line 2")
+  Expyplot.Plot.axis_set([0, 4, 0, 10])  # Notice that this signature is 'axis_set', not 'axis' as in matplotlib
+  Expyplot.Plot.legend()
+  ```
   """
   def plot(opts \\ [], kwargs \\ []) do
     Codebuilder.build_code(funcname: "plt.plot", nonnamed: opts, named: kwargs) |> Server.Commapi.add_code
