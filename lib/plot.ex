@@ -27,8 +27,14 @@ defmodule Expyplot.Plot do
   @doc """
   Plot the angle spectrum.
 
-  Compute the angle spectrum (wrapped phase spectrum) of x. Data is padded to a length of pad_to and the windowing function window <b>Not used yet
+  Compute the angle spectrum (wrapped phase spectrum) of x. Data is padded to a length of pad_to and the windowing function <i>window</i> <b>Not used yet
   in Expyplot</b> is applied to the signal.
+
+  Example call:
+
+  ```elixir
+  1..1_000_000 |> Enum.to_list |> Expyplot.Plot.angle_spectrum(x, [_Fs: 2, _Fc: 0, pad_to: nil, sides: "default"])
+  ```
   """
   def angle_spectrum(x, opts \\ [_Fs: 2, _Fc: 0, pad_to: nil, sides: :default], kwargs \\ []) do
     Codebuilder.build_code(funcname: "plt.angle_spectrum", nonnamed: [x], named: opts ++ kwargs) |> Server.Commapi.add_code
@@ -85,6 +91,13 @@ defmodule Expyplot.Plot do
 
   @doc """
   Add a horizontal line across the axis.
+
+  Typical calls:
+  ```elixir
+  Expyplot.Plot.axhline(linewidth: 4, color: :r)           # Draw a thick red hline at 'y'=0 that spans the xrange
+  Expyplot.Plot.axhline(y: 1)                              # Draw a default hline at 'y'=1 that spans the xrange
+  Expyplot.Plot.axhline(y: 0.5, xmin: 0.25, xmax: 0.75)    # Draw a default hline at 'y'=0.5 that spans the middle half of the xrange
+  ```
   """
   def axhline(opts \\ [y: 0, xmin: 0, xmax: 1, hold: nil], kwargs \\ []) do
     Codebuilder.build_code(funcname: "plt.axhline", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
@@ -104,6 +117,12 @@ defmodule Expyplot.Plot do
   @doc """
   <b>This is how <i>axis</i> has been implemented in this library: as two functions - a get and a set, rather than just the one</b>
   Convenience method to get or set axis properties.
+
+  This function is of limited usefulness at this stage, as it simply returns the string representation of the current axis.
+
+      iex> Expyplot.Plot.axis_get()
+      "(0.0, 1.0, 0.0, 1.0)"
+
   """
   def axis_get(kwargs \\ []) do
     Codebuilder.build_code(funcname: "plt.axis", nonnamed: [], named: kwargs) |> Server.Commapi.add_code
@@ -112,6 +131,15 @@ defmodule Expyplot.Plot do
   @doc """
   <b>This is how <i>axis</i> has been implemented in this library: as two functions - a get and a set, rather than just the one</b>
   Convenience method to get or set axis properties.
+
+  ## Some examples:
+
+      iex> Expyplot.Plot.axis_set("off")  # Turn off the axis lines and labels
+      "(0.0, 1.0, 0.0, 1.0)"
+
+      iex> Expyplot.Plot.axis_set("equal") # Changes limits of x and y axis so that equal increments of x and y have the same length
+      "(-0.055, 0.055, -0.055, 0.055)"
+
   """
   def axis_set(v, kwargs \\ []) do
     Codebuilder.build_code(funcname: "plt.axis", nonnamed: [v], named: kwargs) |> Server.Commapi.add_code
@@ -119,6 +147,24 @@ defmodule Expyplot.Plot do
 
   @doc """
   Add a vertical line across the axes.
+
+  ## Examples
+
+  - Draw a thick read vline at <i>x</i> = 0 that spans the yrange:
+    ```elixir
+    Expyplot.Plot.axvline(linewidth: 4, color: :r)
+    ```
+
+  - Draw a default vline at <i>x</i> = 1 that spans the yrange:
+    ```elixir
+    Expyplot.Plot.axvline(x: 1)
+    ```
+
+  - Draw a default vline at <i>x</i> = 0.5 that spans the middle half of the yrange
+    ```elixir
+    Expyplot.Plot.axvline(x: 0.5, ymin: 0.25, ymax: 0.75)
+    ```
+
   """
   def axvline(opts \\ [x: 0, ymin: 0, ymax: 1, hold: nil], kwargs \\ []) do
     Codebuilder.build_code(funcname: "plt.axvline", nonnamed: [], named: opts ++ kwargs) |> Server.Commapi.add_code
@@ -130,6 +176,13 @@ defmodule Expyplot.Plot do
   Draw a vertical span (rectangle) from xmin to xmax. With the default values of ymin = 0 and ymax = 1. This always spans the yrange,
   regardless of the ylim settings, even if you change them, e.g., with the set_ylim() command. That is, the vertical extent is in axes
   coords: 0=bottom, 0.5=middle, 1.0=top but the y location is in data coordinates.
+
+  ## Examples
+
+  Draw a vertical, green, translucent rectangle from x = 1.25 to x = 1.55 that spans the yrange of the axes.
+
+      iex> Expyplot.Plot.axvspan(1.25, 1.55, facecolor: :g, alpha: 0.5)
+
   """
   def axvspan(xmin, xmax, opts \\ [ymin: 0, ymax: 1, hold: nil], kwargs \\ []) do
     Codebuilder.build_code(funcname: "plt.axvspan", nonnamed: [xmin, xmax], named: opts ++ kwargs) |> Server.Commapi.add_code
