@@ -97,6 +97,8 @@ end
 ```
 ![Subplots](images/subplots.png)
 
+### Zorder/Scatterplots
+
 ```elixir
 defmodule ZorderExample do
   alias Expyplot.Plot
