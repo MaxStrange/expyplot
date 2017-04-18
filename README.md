@@ -23,8 +23,8 @@ Unfortunately (or rather, fortunately if we are celebrating linguistic diversity
 between this library and the real matplotlib.pyplot:
 
 - Return values are strings currently
-- Variable arguments must be wrapped in a list, so: `plt.plot(a, b)` becomes `Plot.plot([a, b])`
-- Named args and keyword args are atoms: `Plot.grid(b: true)`
+- Variable arguments must be wrapped in a list, so: `plt.plot(a, b)` becomes `Plot.plot([a, b])`, <b>but especially notice:</b> `Plot.plot([[1..10], other_args])`
+- Named args and keyword args are atoms: `Plot.grid(b: true)`, though they don't have to be, so: `Plot.plot([[1..10], "r+"])`
 - Keyword args that are not keyword only arguments must be written with keywords, you can't do them positionally, so while `plt.grid(True)` works in Python,
   you have to name the argument in Elixir: `Plot.grid(b: true)`; if you ever get the error: "argument error: :erlang.++(something, [])", this is the reason. You need
   to rewrite the argument list as a keyword list.
