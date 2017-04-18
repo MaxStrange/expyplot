@@ -40,6 +40,8 @@ end
 
 ## Examples
 
+Examples taken from http://matplotlib.org/examples/pylab_examples and then rewritten in Elixir to use this Expyplot.
+
 To run the examples, start an iex -S mix session and run:
 
 ```elixir
@@ -129,6 +131,8 @@ defmodule ZorderExample do
 end
 ```
 ![Zorder](images/zorder.png)
+
+### Bar Graph
 
 ```elixir
 defmodule BarExample do
