@@ -5,7 +5,7 @@ https://github.com/JordiPolo/explot, but I wanted something more transparent.
 
 <b>Documentation can be found at</b> [https://hexdocs.pm/expyplot](https://hexdocs.pm/expyplot).
 
-Expyplot allows you to use 'all' of the functions in matplotlib.plot (in reality, there are some that I left out because they don't make any sense in this context, or
+Expyplot allows you to use 'all' of the functions in matplotlib.pyplot (in reality, there are some that I left out because they don't make any sense in this context, or
 are deprecated).
 
 Unfortunately, I have not tested anywhere near all of the functions, but they should mostly work. If any don't work, please open an issue, or better yet,
@@ -36,6 +36,8 @@ between this library and the real matplotlib.pyplot:
 
 <b>You must also pip3 install PyQt5:</b>
 `pip3 install PyQt5`, or however you install packages for python3 on your particular system.
+
+Expyplot works in Unix systems (tested on OSX and Ubuntu headless), but does not quite yet work on Windows. I hope to have it working on Windows very soon though.
 
 ```elixir
 def deps do
