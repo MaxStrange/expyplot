@@ -2,14 +2,19 @@
 This module is the Matplotlib server, Python side. It sits around waiting for Python code to come over the port, executes it, and returns
 the result to the sender wrapped up in JSON.
 """
-import matplotlib.pyplot as plt
 import numpy as np
 import os
 import socket
 import sys
 import traceback
 
-plt.switch_backend("Qt5Agg")
+import matplotlib
+if "Display" not in os.environ:
+    matplotlib.use("agg")
+    import matplotlib.pyplot as plt
+else:
+    import matplotlib.pyplot as plt
+    plt.switch_backend("Qt5Agg")
 
 signal = "$<>;;<>%"
 
