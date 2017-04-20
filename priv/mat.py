@@ -9,7 +9,7 @@ import sys
 import traceback
 
 import matplotlib
-if "Display" not in os.environ:
+if "SSH_CONNECTION" in os.environ:
     matplotlib.use("agg")
     import matplotlib.pyplot as plt
 else:
