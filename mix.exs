@@ -1,7 +1,7 @@
 defmodule Expyplot.Mixfile do
   use Mix.Project
 
-  @version "1.1.1"
+  @version "1.1.2"
 
   def project do
     [app: :expyplot,
