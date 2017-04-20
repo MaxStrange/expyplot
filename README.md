@@ -41,7 +41,7 @@ Expyplot works in Unix systems (tested on OSX and Ubuntu headless), but does not
 
 ```elixir
 def deps do
-  [{:expyplot, "~> 1.1.1"}]
+  [{:expyplot, "~> 1.1.2"}]
 end
 ```
 
