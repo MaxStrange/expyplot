@@ -37,6 +37,18 @@ between this library and the real matplotlib.pyplot:
 <b>You must also pip3 install PyQt5:</b>
 `pip3 install PyQt5`, or however you install packages for python3 on your particular system.
 
+If this fails, it may be because you are missing Qt. You will need to do this on Ubuntu:
+
+```bash
+sudo apt-get install qt5-default qttools5-dev-tools
+```
+
+and on Mac OS X, do this:
+
+```bash
+brew install qt5
+```
+
 Expyplot works in Unix systems (tested on OSX and Ubuntu headless), but does not quite yet work on Windows. I hope to have it working on Windows very soon though.
 
 ```elixir
