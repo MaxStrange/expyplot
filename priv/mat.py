@@ -14,7 +14,10 @@ if "SSH_CONNECTION" in os.environ:
     import matplotlib.pyplot as plt
 else:
     import matplotlib.pyplot as plt
-    plt.switch_backend("Qt5Agg")
+    try:
+        plt.switch_backend("Qt5Agg")
+    except Exception:
+        print("This library works best with Qt5Agg as the back end. Please consider installing PyQt5.", file=sys.stderr)
 
 signal = "$<>;;<>%"
 
