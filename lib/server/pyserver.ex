@@ -17,7 +17,13 @@ defmodule Server.Pyserver do
 
   def init(:ok) do
     _pwd = System.cwd!()
-    spawn fn -> System.cmd(System.find_executable("python3"), [Path.join([:code.priv_dir(:expyplot), @pyserver_location]), Integer.to_string(@pyport)]) end
+    ls = [Path.join([:code.priv_dir(:expyplot), @pyserver_location]), Integer.to_string(@pyport)]
+    python3 = System.find_executable "python3"
+    python = System.find_executable "python"
+    case python3 do
+      nil -> spawn fn -> System.cmd(python, ls) end
+      _ -> spawn fn -> System.cmd(python3, ls) end
+    end
     {:ok, %{}}
   end
 
