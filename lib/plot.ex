@@ -182,6 +182,7 @@ defmodule Expyplot.Plot do
   Draw a vertical, green, translucent rectangle from x = 1.25 to x = 1.55 that spans the yrange of the axes.
 
       iex> Expyplot.Plot.axvspan(1.25, 1.55, facecolor: :g, alpha: 0.5)
+      ""
 
   """
   def axvspan(xmin, xmax, opts \\ [ymin: 0, ymax: 1, hold: nil], kwargs \\ []) do
@@ -851,10 +852,12 @@ defmodule Expyplot.Plot do
   expect:
 
       iex> Expyplot.Plot.plot([[1, 2, 3, 4, 5]])
+      nil
 
       or
 
       iex> Expyplot.Plot.plot([1..5])
+      nil
 
   Notice the nesting of the list or range.
 

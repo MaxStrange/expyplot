@@ -6,6 +6,8 @@ defmodule Server.Pycomm do
   The general idea is that you will call functions in the library's API and this will usually add
   code here. Then when you call Expyplot.Plot.show(), it will flush the code to the Python3
   interpretor, thus making the plot.
+
+  TODO: Switch this over to using Export.ex (which uses erlport under the hood)
   """
 
   @pyport 9849
