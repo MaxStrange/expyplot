@@ -16,7 +16,7 @@ defmodule Server.Pyserver do
   ## Server Callbacks
 
   def init(:ok) do
-    _pwd = System.cwd!()
+    _pwd = File.cwd!()
     system_python = get_python()
     spawn fn -> System.cmd(system_python, [Path.join([:code.priv_dir(:expyplot), @pyserver_location]), Integer.to_string(@pyport)]) end
     {:ok, %{}}
@@ -25,7 +25,7 @@ defmodule Server.Pyserver do
   ## Helper Functions
 
   defp get_python do
-    # Check the system for python3, then for pyhon
+    # Check the system for python3, then for python
     if System.find_executable("python3") do
       "python3"
     else

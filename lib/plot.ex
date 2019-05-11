@@ -380,7 +380,7 @@ defmodule Expyplot.Plot do
   rarely needed, but there may be ways to modify the state of a figure without marking it as <i>stale</i>.
   """
   def draw do
-    Codebuilder.build_code(funcname: "plt.draw", nonnamed: [], name: []) |> Server.Commapi.add_code
+    Codebuilder.build_code(funcname: "plt.draw", nonnamed: [], named: []) |> Server.Commapi.add_code
   end
 
   @doc """
