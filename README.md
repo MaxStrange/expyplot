@@ -34,8 +34,8 @@ between this library and the real matplotlib.pyplot:
 
 <b>You must have python3 installed and in your path</b>
 
-<b>You must also pip3 install PyQt5:</b>
-`pip3 install PyQt5`, or however you install packages for python3 on your particular system.
+<b>You must also pip3 install PyQt5 and matplotlib:</b>
+`pip3 install PyQt5`, `pip3 install matplotlib`, or however you install packages for python3 on your particular system.
 
 ```elixir
 def deps do
